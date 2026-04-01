@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  postgres-test:
+    image: postgres:15
+    platform: linux/amd64
+    container_name: ats-postgres-test
+    environment:
+      POSTGRES_DB: ats_test_db
+      POSTGRES_USER: ats_test_user
+      POSTGRES_PASSWORD: ats_test_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - ats-test-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ats_test_user -d ats_test_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend-test:
+    platform: linux/amd64
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ats-backend-test
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: test
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-test:5432/ats_test_db
+      SPRING_DATASOURCE_USERNAME: ats_test_user
+      SPRING_DATASOURCE_PASSWORD: ats_test_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+      ATS_CV_UPLOAD_DIR: ./uploads/cv
+      ATS_AI_SERVICE_URL: http://ai-service-test:8000
+      JWT_SECRET: test-jwt-secret-key-for-testing-only
+      JWT_REFRESH_SECRET: test-refresh-secret-key-for-testing-only
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      ai-service-test:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - ats-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend-test:
+    platform: linux/amd64
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ats-frontend-test
+    ports:
+      - "4200:80"
+    environment:
+      NODE_ENV: test
+    depends_on:
+      - backend-test
+    networks:
+      - ats-test-network
+
+  ai-service-test:
+    platform: linux/amd64
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: ats-ai-service-test
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONPATH: /app
+      MODEL_CACHE_DIR: /app/models
+    volumes:
+      - ./ai-service/uploads:/app/uploads
+    networks:
+      - ats-test-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_test_data:
+
+networks:
+  ats-test-network:
+    driver: bridge
