@@ -662,4 +662,5 @@ The system is designed for immediate deployment and can be customized to meet sp
 
 ---
 
-**Built with ❤️ using Spring Boot, Angular, and Python FastAPI**
+## 📄 License
+This project is licensed under the MIT License.
