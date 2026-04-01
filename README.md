@@ -28,7 +28,7 @@ JUnit
 
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.35.05.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.35.25.png" alt="Podgląd aplikacji" width="600">
-<img src="screenshots/rzut ekranu 2026-04-1 o 15.38.23.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-1 o 15.38.23.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-01-27 o 18.01.48.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-01-27 o 18.03.54.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-01-27 o 18.04.13.png" alt="Podgląd aplikacji" width="600">
