@@ -16,6 +16,13 @@ Traditional recruitment processes are often manual, time-consuming, and prone to
 
 ## 🚀 Key Features
 
+# 💻 Tech Stack:
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+
+
+<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
+
 ### Core Functionality
 
 - **AI-Powered CV Analysis**: Automatic skill extraction and job matching (0-100 scoring)
