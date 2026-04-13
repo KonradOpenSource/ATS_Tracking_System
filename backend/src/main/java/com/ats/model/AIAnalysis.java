@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +21,12 @@ public class AIAnalysis {
     
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cv_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "aiAnalysis"})
     private CV cv;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_offer_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "candidates"})
     private JobOffer jobOffer;
     
     @NotNull(message = "Match score is required")

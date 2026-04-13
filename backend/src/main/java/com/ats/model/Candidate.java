@@ -60,6 +60,7 @@ public class Candidate {
     private LocalDateTime updatedAt;
     
     @ManyToMany(mappedBy = "candidates", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Set<JobOffer> jobApplications = new HashSet<>();
     
     // Constructors

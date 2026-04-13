@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
 
@@ -41,9 +43,11 @@ public class CV {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "candidate_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Candidate candidate;
     
     @OneToOne(mappedBy = "cv", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private AIAnalysis aiAnalysis;
     
     @CreatedDate

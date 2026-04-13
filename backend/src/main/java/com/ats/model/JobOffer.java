@@ -7,6 +7,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -50,10 +52,12 @@ public class JobOffer {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "password"})
     private User createdBy;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_to_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "password"})
     private User assignedTo;
     
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -62,6 +66,7 @@ public class JobOffer {
         joinColumns = @JoinColumn(name = "job_offer_id"),
         inverseJoinColumns = @JoinColumn(name = "candidate_id")
     )
+    @JsonIgnore
     private Set<Candidate> candidates = new HashSet<>();
     
     @Column(nullable = false)
