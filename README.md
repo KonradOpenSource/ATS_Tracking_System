@@ -30,8 +30,12 @@ JUnit
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.35.25.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.38.23.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.36.08.png" alt="Podgląd aplikacji" width="600">
-<img src="screenshots/Zrzut ekranu 2026-04-1 o 15.36.23.png" alt="Podgląd aplikacji" width="600">
-<img src="screenshots/Zrzut ekranu 2026-04-1 o 15.36.30.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.17.49.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.18.02.png alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.18.14.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.20.15.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.20.29.png" alt="Podgląd aplikacji" width="600">
+<img src="screenshots/Zrzut ekranu 2026-04-13 o 18.20.42.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.37.19.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.39.34.png" alt="Podgląd aplikacji" width="600">
 <img src="screenshots/Zrzut ekranu 2026-04-1 o 15.38.23.png" alt="Podgląd aplikacji" width="600">
