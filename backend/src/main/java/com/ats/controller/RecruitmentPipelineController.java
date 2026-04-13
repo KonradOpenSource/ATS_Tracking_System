@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/recruitment")
 @Tag(name = "Recruitment Pipeline", description = "API for managing recruitment pipelines and stages")
-@SecurityRequirement(name = "bearerAuth")
 public class RecruitmentPipelineController {
     
     private final RecruitmentPipelineService pipelineService;

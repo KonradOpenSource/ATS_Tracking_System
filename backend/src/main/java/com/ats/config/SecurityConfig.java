@@ -19,6 +19,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 public class SecurityConfig {
     
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -35,11 +36,11 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/candidates/**").hasAnyRole("ADMIN", "RECRUITER")
-                .requestMatchers("/api/recruitment/**").hasAnyRole("ADMIN", "RECRUITER")
-                .requestMatchers("/api/job-offers/**").hasAnyRole("ADMIN", "RECRUITER")
-                .requestMatchers("/api/ai/**").hasAnyRole("ADMIN", "RECRUITER")
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/recruitment/**").permitAll()
+                .requestMatchers("/api/candidates/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_RECRUITER")
+                .requestMatchers("/api/job-offers/**", "/api/job-offers").hasAnyAuthority("ROLE_ADMIN", "ROLE_RECRUITER")
+                .requestMatchers("/api/ai/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_RECRUITER")
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()

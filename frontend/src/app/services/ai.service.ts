@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpEventType } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpHeaders } from "@angular/common/http";
+import { AuthService } from "./auth.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import {
@@ -16,7 +17,32 @@ import {
 export class AIService {
   private readonly API_URL = "http://localhost:8082/api/ai";
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
+
+  private getAuthHeaders(): HttpHeaders {
+    const token = this.authService.getToken();
+    return new HttpHeaders().set("Authorization", `Bearer ${token}`);
+  }
+
+  // Job Offers Management
+  getJobOffers(): Observable<any[]> {
+    return this.http.get<any[]>("http://localhost:8082/api/job-offers", {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  createJobOffer(jobOffer: any): Observable<any> {
+    return this.http.post<any>(
+      "http://localhost:8082/api/job-offers",
+      jobOffer,
+      {
+        headers: this.getAuthHeaders(),
+      },
+    );
+  }
 
   // CV Management
   uploadCV(file: File, candidateId: number): Observable<CV> {
@@ -24,25 +50,34 @@ export class AIService {
     formData.append("file", file);
     formData.append("candidateId", candidateId.toString());
 
-    return this.http.post<CV>(`${this.API_URL}/cv/upload`, formData);
+    return this.http.post<CV>(`${this.API_URL}/cv/upload`, formData, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getCVById(id: number): Observable<CV> {
-    return this.http.get<CV>(`${this.API_URL}/cv/${id}`);
+    return this.http.get<CV>(`${this.API_URL}/cv/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getCVsByCandidate(candidateId: number): Observable<CV[]> {
-    return this.http.get<CV[]>(`${this.API_URL}/cv/candidate/${candidateId}`);
+    return this.http.get<CV[]>(`${this.API_URL}/cv/candidate/${candidateId}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   downloadCV(id: number): Observable<Blob> {
     return this.http.get(`${this.API_URL}/cv/${id}/download`, {
       responseType: "blob",
+      headers: this.getAuthHeaders(),
     });
   }
 
   deleteCV(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/cv/${id}`);
+    return this.http.delete<void>(`${this.API_URL}/cv/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   // AI Analysis
@@ -50,28 +85,34 @@ export class AIService {
     return this.http.post<AIAnalysis>(
       `${this.API_URL}/analyze/${cvId}/${jobOfferId}`,
       {},
+      { headers: this.getAuthHeaders() },
     );
   }
 
   getAnalysisById(id: number): Observable<AIAnalysis> {
-    return this.http.get<AIAnalysis>(`${this.API_URL}/analysis/${id}`);
+    return this.http.get<AIAnalysis>(`${this.API_URL}/analysis/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   getLatestAnalysisForCV(cvId: number): Observable<AIAnalysis> {
     return this.http.get<AIAnalysis>(
       `${this.API_URL}/analysis/cv/${cvId}/latest`,
+      { headers: this.getAuthHeaders() },
     );
   }
 
   getTopAnalysesForJobOffer(jobOfferId: number): Observable<AIAnalysis[]> {
     return this.http.get<AIAnalysis[]>(
       `${this.API_URL}/analysis/job-offer/${jobOfferId}/top`,
+      { headers: this.getAuthHeaders() },
     );
   }
 
   getAnalysesByMinScore(minScore: number): Observable<AIAnalysis[]> {
     return this.http.get<AIAnalysis[]>(
       `${this.API_URL}/analysis/min-score/${minScore}`,
+      { headers: this.getAuthHeaders() },
     );
   }
 
@@ -79,12 +120,14 @@ export class AIService {
   getAverageScoreForJobOffer(jobOfferId: number): Observable<number> {
     return this.http.get<number>(
       `${this.API_URL}/stats/job-offer/${jobOfferId}/average-score`,
+      { headers: this.getAuthHeaders() },
     );
   }
 
   getAnalysisCountForJobOffer(jobOfferId: number): Observable<number> {
     return this.http.get<number>(
       `${this.API_URL}/stats/job-offer/${jobOfferId}/count`,
+      { headers: this.getAuthHeaders() },
     );
   }
 
@@ -101,6 +144,7 @@ export class AIService {
       .post<CV>(`${this.API_URL}/cv/upload`, formData, {
         reportProgress: true,
         observe: "events",
+        headers: this.getAuthHeaders(),
       })
       .pipe(
         map((event) => {
@@ -125,7 +169,9 @@ export class AIService {
       ? `${this.API_URL}/stats/job-offer/${jobOfferId}`
       : `${this.API_URL}/stats`;
 
-    return this.http.get<AIStats>(url);
+    return this.http.get<AIStats>(url, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   // File validation
